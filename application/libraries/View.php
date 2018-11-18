@@ -35,4 +35,12 @@ class View {
     {
 		return $this->genView('default/error');
 	}
+
+	public function returnJSON($response)
+	{
+		$CI =& get_instance();
+		$CI->load->library('output');
+		$json = json_encode($response);
+		return $CI->output->set_content_type('application/json')->set_output($json);
+	}
 }
