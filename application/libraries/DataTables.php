@@ -273,26 +273,6 @@ class DataTables{
 		echo json_encode($json_data);  // send data as json format
 	}
 
-	public function genDocumentId($idDocument="")
-	{
-		$CI =& get_instance();
-		$CI->db->insert('seq_no_dicument',array('id_document'=>$idDocument));
-		$getSeqNumber = $CI->db->where('id_document',$idDocument)->get('seq_no_dicument')->result();
-		$resID = $getSeqNumber[0]->id;
-		$lenId = strlen($resID);
-		for ($i=0; $i < (7-$lenId) ; $i++) { 
-			$resID = "0".$resID;
-		}
-
-		$CI->db->where('id_document',$idDocument)->delete('seq_no_dicument');
-
-		return $resID;
-	}
-
-	public function getAbjad(){
-		return array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
-	}
-
     public function auth()
     {
     	$CI =& get_instance();
@@ -320,38 +300,6 @@ class DataTables{
         } catch (Exception $e) {
             $invalid = ['error' => $e->getMessage()]; //Respon if credential invalid
             $CI->response($invalid, 401);//401
-        }
-    }
-
-    public static function sendEmail($to="",$message="Test Message from WIKA e-File System")
-    {	  
-    	$CI =& get_instance();
-        $config = Array(
-          'protocol' => 'smtp',
-          'smtp_host' => 'ssl://wbmail.wika-beton.co.id',
-          'smtp_port' => 465,
-          'smtp_user' => 'hc@wika-beton.co.id', // change it to yours
-          'smtp_pass' => 'w1k4b3t0n', // change it to yours
-          'mailtype' => 'html',
-          'smtp_timeout'=>'30',
-          'charset' => 'iso-8859-1',
-          'wordwrap' => TRUE
-        );
-
-        $CI->load->library('email', $config);
-        $CI->email->initialize($config);
-        $CI->email->set_newline("\r\n");
-        $CI->email->from('hc@wika-beton.co.id'); // change it to yours
-        $CI->email->to($to);// change it to yours
-        $CI->email->subject('Email Notifikasi e-File System');
-        $CI->email->message($message);
-        if($CI->email->send())
-        {
-            echo 'Email sent.';
-        }
-        else
-        {
-            show_error($CI->email->print_debugger());
         }
     }
 }
