@@ -5,4 +5,12 @@ class Security {
     {
     
     }
+
+    public function cleanupData($data)
+    {
+        $CI =& get_instance();
+        $CI->load->library('security');
+        $data = $this->security->xss_clean($data);
+        return $data;
+    }
 }
