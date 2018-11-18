@@ -61,6 +61,7 @@ $autoload['packages'] = array();
 $autoload['libraries'] = array(
     'DataTables',
     'View',
+    'EmailService',
     'session',
     'database',
     'form_validation');
