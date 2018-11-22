@@ -31,4 +31,9 @@ class File {
         }
        
     }
+
+    public function download($options = array())
+    {
+        
+    }
 }

@@ -1,7 +1,15 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class View {
-    public function genView($view='',$data = array())
+	public function genView($view = '', $params = array())
+	{
+		$CI =& get_instance();
+		$data['viewname'] = $view;
+		$data['params'] = $params;
+		$CI->load->view('themes/'.THEME.'/index', $data);
+	}
+
+    public function genView2($view='',$data = array())
 	{	
 		$CI =& get_instance();
 		// $data['menuGrant'] = DataHandler::selectData('up.`id_menu`,up.`id_submenu`,m.`menu_name`,sm.`submenu_name`,m.`image`,m.`content`','`user_priviledge` AS up JOIN menu AS m ON m.`id` = up.`id_menu` JOIN sub_menu AS sm ON sm.`id` = up.`id_submenu` ','id_user ='.$CI->session->userdata('id'),'m.sort_position asc','up.id_menu');
@@ -20,10 +28,10 @@ class View {
 		// $data['year'] = $webSetttings[1]->value;
 		// $data['version'] = $webSetttings[2]->value;
 		
-		$CI->load->view('themes/'.THEMES.'/layout/header',$data);
-		$CI->load->view('themes/'.THEMES.'/layout/sidebar',$data);
-		$CI->load->view('themes/'.THEMES.'/'.$view,$data);
-		$CI->load->view('themes/'.THEMES.'/layout/footer',$data);
+		$CI->load->view('themes/'.THEME.'/layout/header',$data);
+		$CI->load->view('themes/'.THEME.'/layout/sidebar',$data);
+		$CI->load->view('themes/'.THEME.'/'.$view,$data);
+		$CI->load->view('themes/'.THEME.'/layout/footer',$data);
     }
     
     public function throwError()

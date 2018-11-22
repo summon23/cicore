@@ -22,4 +22,33 @@ class Home extends CI_Controller {
 	{
 		return $this->view->genView('dashboard/home');
 	}
+
+	public function dashboard()
+	{
+		// return $this->load->view('themes/metronic/index');
+		return $this->view->genView('dashboard2');
+		// return $this->view->genView('dashboard');
+	}
+
+	public function emptypage()
+	{
+		return $this->view->genView('empty');
+	}
+
+	public function sendMail()
+	{			
+		$body = '';
+		try {
+			$config = array(
+				'to' => 'andreymahdison@gmail.com',
+				'name' => 'Andry Mahdison',
+				'subject' => 'This is dummy email',
+				'body' => $body
+			);
+			$s = $this->emailservice->sendMail($config);
+			return true;
+		} catch (Exception $e) {
+			return $e->getMessage();
+		}	
+	}	
 }
