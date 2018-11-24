@@ -62,8 +62,10 @@ $autoload['libraries'] = array(
     'DataTables',
     'View',
     'EmailService',
+    'Excel',
     'session',
     'database',
+    'user_agent',
     'form_validation');
 
 /*
