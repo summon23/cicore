@@ -1,12 +1,39 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class View {
-	public function genView($view = '', $params = array())
+	public function genView($view = '', $params = array(), $singlePage = false)
 	{
 		$CI =& get_instance();
-		$data['viewname'] = $view;
-		$data['params'] = $params;
-		$CI->load->view('themes/'.THEME.'/index', $data);
+		if ($singlePage) {
+			return $CI->load->view('themes/'.THEME.'/'.$view, $params);
+		} else {
+			$menu = self::getMenu();
+			// debug($params);
+			$data['activemenu'] = array_key_exists('activemenu', $params) ? $params['activemenu'] : 'Dashboard';
+			$data['viewname'] = $view;
+			$data['params'] = $params;
+			$data['menu'] = $menu;
+			return $CI->load->view('themes/'.THEME.'/index', $data);
+		}				
+	}
+
+	public static function getMenu()
+	{
+		$CI =& get_instance();
+		$menu = array();
+		$getMenu = $CI->db->query('SELECT * from menu')->result(); //put is active
+		foreach ($getMenu as $key => $value) {
+			
+			$getSubmenu = $CI->db->query('SELECT * from submenu where id_menu='.$value->id)->result();
+			$submenu = array();
+			foreach ($getSubmenu as $k => $v) {
+				array_push($submenu, $v);
+			}
+			$value->submenu = $submenu;
+			array_push($menu, $value);
+		}
+
+		return $menu;
 	}
 
     public function genView2($view='',$data = array())

@@ -1,8 +1,36 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Home extends CI_Controller {
 
+// use PHPExcel;
+// use PHPExcel_IOFactory;
+// use PHPExcel_Style_Alignment;
+
+class Home extends CI_Controller {
+	public function excel()
+	{
+		// $this->load->library('excel');
+		$excel = $this->excel->getContext();
+		
+		//activate worksheet number 1
+		$excel->setActiveSheetIndex(0);
+		//name the worksheet
+		$excel->getActiveSheet()->setTitle('test worksheet');
+		//set cell A1 content with some text
+		$excel->getActiveSheet()->setCellValue('A1', 'This is just some text value');
+		//change the font size
+		$excel->getActiveSheet()->getStyle('A1')->getFont()->setSize(20);
+		//make the font become bold
+		$excel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
+		//merge cell A1 until D1
+		$excel->getActiveSheet()->mergeCells('A1:D1');
+		//set aligment to center for that merged cell (A1 to D1)
+		// $excel->getActiveSheet()->getStyle('A1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+		$options = array(
+			'filename' => 'just_some_random_name.xls'
+		);
+		return $this->excel->writeExcel($excel, $options);							
+	}
 	/**
 	 * Index Page for this controller.
 	 *
@@ -20,7 +48,8 @@ class Home extends CI_Controller {
 	 */
 	public function index()
 	{
-		return $this->view->genView('dashboard/home');
+		return $this->view->genView('dashboard');
+		// return $this->view->genView('dashboard/home');
 	}
 
 	public function dashboard()

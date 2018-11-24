@@ -1,18 +1,48 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class User extends MY_Controller {
+/**
+ * Load External Function on Core Directory
+ */
+require_once(APPPATH.'core/autoload.php');
 
-    private $tableName = 'users';
+class User extends ModelController {
 
-    function __construct() 
+    public function __construct() 
     {
-        parent::__construct($this->tableName);
+        $options = array(
+            'modulename' => 'User',
+            'route' => 'user',
+            'tablename' => 'users',       
+            'modelfield' => array(
+                'id' => array(
+                    'type' => 'hidden',
+                    'name' => 'id',
+                    'fieldname' => 'ID'
+                ),
+                'name' => array(
+                    'type' => 'text',
+                    'name' => 'name',
+                    'fieldname' => 'User'
+                ),
+                'email' => array(
+                    'type' => 'email',
+                    'name' => 'email',
+                    'fieldname' => 'Email Address'
+                )
+            )
+        );
+        parent::__construct($options);
     }
 
-    function index() {
-        $this->view->genView('user/index');
-    }
+    // function view($params = array()) {
+    //     $params = array(
+    //         'activemenu' => 'User',
+    //         'pagetitle' => 'User',
+    //         'route' => 'user'
+    //     );
+    //     $this->view->genView('user/index', $params);
+    // }
 
     function ajaxRequest($invoke = "") 
     {
@@ -21,23 +51,35 @@ class User extends MY_Controller {
          */
         if ($invoke === "") return "Invocation Type Required";
         $invokeType = strtolower($invoke);
+        $params = $this->input->get();
+        $where = 1;
+        // debug($where);
+        if (array_key_exists('search', $params)) {
+            $key = $params['search']['value'];
+            $where = ' (name like "%'.$key.'%" or email like "%'.$key.'%")';
+        }
         $draw = intval($this->input->get("draw"));
         $start = intval($this->input->get("start"));
         $length = intval($this->input->get("length"));
-        $table = $this->tableName;
+        // debug($this->datatables->getQuery($params));
+        $table = 'users';
         // echo $invokeType;
         switch ($invokeType) {
-            case 'getuser':
+            case 'get':
             
-                $user = $this->db->query("SELECT * from $table");
+                $user = $this->db->query("SELECT * from $table where is_delete = 0 and $where");
                 $data = array();
 
+                $no = $start + 1;
                 foreach($user->result() as $r) {
                     $data[] = array(
+                         $no,
                          $r->email,
-                         $r->username,
-                         $r->password
+                         $r->name,
+                         $r->password,
+                         $r->id
                     );
+                    $no++;
                }
      
                 $output = array(

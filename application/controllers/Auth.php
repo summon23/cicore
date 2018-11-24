@@ -15,7 +15,7 @@ class Auth extends CI_Controller {
         if ($this->session->userdata('authLogin')) {
             redirect($dashboardController, 'refresh');
         } else {
-            return $this->view->genView('login');
+            return $this->view->genView('login', array(), true);
         }
     }
     
@@ -29,12 +29,13 @@ class Auth extends CI_Controller {
             $this->session->set_flashdata('warning', 'Username tidak valid');
             redirect('/auth', 'refresh');
         }
+        
 
         // get data
-        $getUserData = $this->db->where('email', $userdata['username'])
-                                // ->where('password', md5($userdata['password']))
+        $getUserData = $this->db->where('name', $userdata['username'])
+                                ->where('password', md5($userdata['password']))
                                 ->get('users')
-                                ->result();        
+                                ->result();  
              
         if (empty($getUserData)) {
             $this->session->set_flashdata('warning', 'Username atau Password salah');

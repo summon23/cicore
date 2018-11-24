@@ -17,19 +17,16 @@ class Setting extends ModelController {
                 'id' => array(
                     'type' => 'hidden',
                     'name' => 'id',
-                    'column' => 'id',
                     'fieldname' => 'ID'
                 ),
                 'name' => array(
                     'type' => 'text',
                     'name' => 'name',
-                    'column' => 'name',
                     'fieldname' => 'User'
                 ),
                 'email' => array(
                     'type' => 'email',
                     'name' => 'email',
-                    'column' => 'email',
                     'fieldname' => 'Email Address'
                 )
             )
