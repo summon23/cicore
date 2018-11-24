@@ -27,7 +27,8 @@ if (!function_exists('debug'))
 {
     function debug($data){
     	echo "<pre>";
-    	print_r($data);
+        print_r($data);
+        echo "</pre>";
     	die();
     }
 }
@@ -38,5 +39,19 @@ if (!function_exists('checkSession'))
         $CI =& get_instance();
         if ($CI->session->userdata($id)) return true;
         return false;
+    }
+}
+
+if (!function_exists('setAlert'))
+{
+    /**
+     * @param type String enum warning, default, danger, info, success
+     * @param message String 
+     */
+    function setAlert($type, $message) {
+        $CI =& get_instance();
+        $CI->session->set_flashdata('alert', true);
+        $CI->session->set_flashdata('alerttype', $type);
+        $CI->session->set_flashdata('alertmessage', $message);
     }
 }

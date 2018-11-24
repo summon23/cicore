@@ -272,6 +272,20 @@ class DataTables{
 
 		echo json_encode($json_data);  // send data as json format
 	}
+	
+	public function getQuery($params)
+	{
+		$query = array(
+			'draw' => $params['draw'],
+			'offset' => $params['start'],
+			'limit' => $params['length'],
+			'filter' => $params['search']['value'],
+			'sortcolumn' => $params['order'][0]['column'],
+			'sortdir' => $params['order'][0]['dir']
+		);
+		
+		return $query;
+	}
 
     public function auth()
     {
