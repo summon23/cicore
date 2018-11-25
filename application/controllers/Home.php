@@ -1,12 +1,23 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-
-// use PHPExcel;
-// use PHPExcel_IOFactory;
-// use PHPExcel_Style_Alignment;
-
 class Home extends CI_Controller {
+	public function pdf()
+	{
+		// instantiate and use the dompdf class
+		$dompdf = $this->pdf->getContext();
+		$dompdf->loadHtml('hello world');
+
+		// (Optional) Setup the paper size and orientation
+		$dompdf->setPaper('A4', 'landscape');
+
+		// Render the HTML as PDF
+		$dompdf->render();
+
+		// Output the generated PDF to Browser
+		$dompdf->stream();
+	}
+
 	public function excel()
 	{
 		// $this->load->library('excel');

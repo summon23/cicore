@@ -1,6 +1,5 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-//Load Composer's autoloader
 require 'vendor/autoload.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;

@@ -63,6 +63,7 @@ $autoload['libraries'] = array(
     'View',
     'EmailService',
     'Excel',
+    'Pdf',
     'session',
     'database',
     'user_agent',
